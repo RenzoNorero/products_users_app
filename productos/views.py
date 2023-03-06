@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from usuarios.models import User
+from django.views.decorators.csrf import csrf_exempt
 
 def tienda(request):
     q = request.GET.get('q', '')
@@ -30,7 +31,7 @@ def list_products(request):
     return render(request, 'productos/prod_list.html', {'products': products})
 
 # To modify products
-@login_required
+@csrf_exempt
 def mod_products(request, prod_sku):
     product = get_object_or_404(Producto, sku=prod_sku)
     if request.method == 'POST':
@@ -65,7 +66,7 @@ def del_products(request, prod_sku):
         return HttpResponseNotFound('Product not found') # Si no encuentra el id, retorna ese mensaje
     
 # To create products
-@login_required
+@csrf_exempt
 def create_products(request):
     if request.method == 'POST':
         # We get the data from the form

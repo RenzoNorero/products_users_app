@@ -94,7 +94,7 @@ def list_users(request):
 
 
 # To edit users
-@login_required
+@csrf_exempt
 def mod_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
@@ -129,7 +129,7 @@ def del_user(request, user_id):
         return HttpResponseNotFound('User not found')
     
 # To create users
-@login_required
+@csrf_exempt
 def create_users(request):
     if request.method == 'POST':
         # We get data from form
