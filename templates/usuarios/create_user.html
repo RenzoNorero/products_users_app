@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+</head>
+    <body>
+      <nav>
+        <ul>
+          <li><a href="/">Index</a></li>
+          <li><a href="/tienda?session_token={{ request.session.session_key }}">Products</a></li>
+          {% if fname %}
+            <li><a href="/signout">Log out</a></li>
+            {% if user.is_authenticated and user.is_staff %}
+              <li><a href="/usuarios?session_token={{ request.session.session_key }}">Edit User</a></li>
+              <li><a href="/productos/list_products?session_token={{ request.session.session_key }}">Edit Product</a></li>
+            {% endif %}
+          {% else %}
+            <li><a href="/signup?session_token={{ request.session.session_key }}">Sign up</a></li>
+            <li><a href="/signin?session_token={{ request.session.session_key }}">Sign In</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+        {% block content %}
+        <h1>Create User</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+            </div>
+            <div>
+            <label for="fname">Name:</label>
+            <input type="text" name="fname" required>
+            </div>
+            <div>
+            <label for="lname">Last Name:</label>
+            <input type="text" name="lname" required>
+            </div>
+            <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email" required>
+            </div>
+            <div>
+            <label for="pass1">Password:</label>
+            <input type="password" name="pass1" required>
+            </div>
+            <div>
+            <label for="pass2">Verify Password:</label>
+            <input type="password" name="pass2" required>
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <button type="submit">Crear usuario</button>
+            </div>
+            <label for="">Tipo de Usuario</label>
+            <select id="user_type" name="user_type">
+                <option value="cliente">Cliente</option>
+                <option value="admin">Administrador</option>
+            </select>
+        </form>
+        {% endblock %}    
+    </body>
+</html>

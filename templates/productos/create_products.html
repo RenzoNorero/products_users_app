@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Product</title>
+</head>
+    <body>
+        <nav>
+            <ul>
+              <li><a href="/">Index</a></li>
+              <li><a href="/tienda?session_token={{ request.session.session_key }}">Products</a></li>
+              {% if fname %}
+                <li><a href="/signout">Log out</a></li>
+                {% if user.is_authenticated and user.is_staff %}
+                  <li><a href="/usuarios?session_token={{ request.session.session_key }}">Edit User</a></li>
+                  <li><a href="/productos/list_products?session_token={{ request.session.session_key }}">Editar Productos</a></li>
+                {% endif %}
+              {% else %}
+                <li><a href="/signup?session_token={{ request.session.session_key }}">Sign Up</a></li>
+                <li><a href="/signin?session_token={{ request.session.session_key }}">Sign In</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        {% block content %}
+        <h1>Create New Product</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+            <label for="id_name">Name:</label>
+            <input type="text" name="name" required>
+            </div>
+            <div>
+            <label for="brand">Brand:</label>
+            <input type="text" name="brand" required>
+            </div>
+            <div>
+            <label for="price">Price:</label>
+            <input type="text" name="price" required>
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <button type="submit">Create Product</button>
+            </div>
+        </form>
+        {% endblock %}    
+    </body>
+</html>
+

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/style.css' %}">
+    <title>Sign Up</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">Index</a></li>
+      <li><a href="/tienda?session_token={{ request.session.session_key }}">Products</a></li>
+      {% if fname %}
+        <li><a href="/signout">Log out</a></li>
+        {% if user.is_authenticated and user.is_staff %}
+          <li><a href="/usuarios?session_token={{ request.session.session_key }}">Edit User</a></li>
+          <li><a href="/productos/list_products?session_token={{ request.session.session_key }}">Edit Product</a></li>
+        {% endif %}
+      {% else %}
+        <li><a href="/signup?session_token={{ request.session.session_key }}">Sign up</a></li>
+        <li><a href="/signin?session_token={{ request.session.session_key }}">Sign In</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+    <h3>Sign Up</h3>
+
+    <form action="/signup" method="post">
+        {% csrf_token %}
+    
+        <label for="">Username</label>
+        <input type="text" id="username" name="username" Required>
+        <br>
+        <label for="">Name</label>
+        <input type="text" id="fname" name="fname" Required>
+        <br>
+        <label for="">Last Name</label>
+        <input type="text" id="lname" name="lname" Required>
+        <br>
+        <label for="">Email</label>
+        <input type="text" id="email" name="email" Required>
+        <br>
+        <label for="">Password</label>
+        <input type="password" id="pass1" name="pass1" Required>
+        <br>
+        <label for="">Verify Password</label>
+        <input type="password" id="pass2" name="pass2" Required>
+        <br>
+        <input type="hidden" id="is_staff" name="is_staff" value="False">
+        <label for="">User Type</label>
+        <select id="user_type" name="user_type">
+            <option value="cliente">Client</option>
+            <option value="admin">Staff</option>
+        </select>
+        <br>
+        <button type="submit">Sign Up</button>
+    </form>
+    
+</body>
+</html>

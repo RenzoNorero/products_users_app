@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+    <body>
+      <nav>
+        <ul>
+          <li><a href="/">Index</a></li>
+          <li><a href="/tienda?session_token={{ request.session.session_key }}">Products</a></li>
+          {% if fname %}
+            <li><a href="/signout">Log out</a></li>
+            {% if user.is_authenticated and user.is_staff %}
+              <li><a href="/usuarios?session_token={{ request.session.session_key }}">Edit User</a></li>
+              <li><a href="/productos/list_products?session_token={{ request.session.session_key }}">Editar Productos</a></li>
+            {% endif %}
+          {% else %}
+            <li><a href="/signup?session_token={{ request.session.session_key }}">Sign Up</a></li>
+            <li><a href="/signin?session_token={{ request.session.session_key }}">Sign In</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <h1>Products</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Accions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <td>{{ product.name }}</td>
+              <td>{{ product.brand }}</td>
+              <td>{{ product.price }}</td>
+              <td>
+                <a href="{% url 'mod_products' product.sku %}">Edit</a>
+                <a href="{% url 'del_products' product.sku %}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      <div>
+        <a href="{% url 'create_products' %}">Add new product</a>
+      </div>
+    </body>
+</html>
+

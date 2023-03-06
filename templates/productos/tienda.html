@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'productos/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <nav>
+        <ul>
+          <li><a href="/">Index</a></li>
+          <li><a href="/tienda?session_token={{ request.session.session_key }}">Products</a></li>
+          {% if fname %}
+            <li><a href="/signout">Log out</a></li>
+            {% if user.is_authenticated and user.is_staff %}
+              <li><a href="/usuarios?session_token={{ request.session.session_key }}">Edit User</a></li>
+              <li><a href="/productos/list_products?session_token={{ request.session.session_key }}">Editar Productos</a></li>
+            {% endif %}
+          {% else %}
+            <li><a href="/signup?session_token={{ request.session.session_key }}">Sign Up</a></li>
+            <li><a href="/signin?session_token={{ request.session.session_key }}">Sign In</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    <h2>Products</h2>
+    <div class="container">
+        <form method="get">
+            <input type="text" name="q" value="{{ q }}">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <div class="productos-container">
+        {% if products %}
+            {% for product in products %}
+                {% if q in product.name %}
+                    <div class="producto">
+                        <a href="{% url 'detalle_producto' product.sku %}">
+                            <h6><strong>{{ product.name }}</strong></h6>
+                        </a>
+                        <h4>$ {{ product.price|floatformat:0 }} CLP</h4>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Try another product.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
