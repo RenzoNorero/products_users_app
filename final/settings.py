@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2lo0vaks=+y7rfd&so&mdpcpgu^gt^xmw_9lqi)*41ii1%)!5^
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_COOKIE_DOMAIN = 'web-production-5137.up.railway.app'
 
 # Application definition
 
