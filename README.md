@@ -2,8 +2,12 @@
 
 The current project was developed as part of a challenge to apply to a position at ZEBRANDS. The challenge focus on developing an app that works as a catalogue for different products. In this app, we could have anonymous users and staff. Anonymous users could only see products, while staff users could edit or delete them, as well as editing or deleting other users and staff. Finally, whenever some of this changes were made, all staff should be notified by email.
 
-**How it works**
+**STARTING**
+First click on sigup link on the navitagion bar, and create new user. For testing, create staff user so you can be able to edit, add and delete other users and products. Once the user is created, click on the signin link and enter your new credentials. Once you're logged in as staff, you'll see on the navigation bar two more options, for editing users and products.
+Users registered as clients can only see the products. 
+The number of times each person makes a click on a product to see its details it is stored in the database, so we can get useful data about products.
 
+**How it works**
 This app works based on Django infraestructure. Basically, in each app we have a file named "view", which contains the functions that process HTTP requests and generate a response. The file named "urls" contains the links that users need to access the views. So, when a HTTP request is made, Django searchs for an URL that matches the request in the urls.py file. Once it finds it, it calls the view defined in the views.py file.
 
 Also, running on a local enviroment, we are able to create a database with sqlite3 and interact with it through ORM. Django creates the tables based on the defined models in our apps, and each time a query is executed through ORM, Django translates it into an SQL query and  make the changes in our database.
@@ -45,7 +49,6 @@ In **products** app, this are the **views**:
 - error_handler(request, exception=None): This view renders the error.html template with a message to prompt the user to sign in.
 
 **How to deploy this app in your local enviroment**
-
 To test this app in your PC, you should follow this steps:
 
 Windows:
@@ -72,6 +75,5 @@ python manage.py runserver
 You should now be able to see the app at http://localhost:8000
 
 **Activate notification email functionality**
-
 For security purposes, I'm not able to upload the api key in the final/settings.py file, so the function to send the notification to all admins has been commented (#). To activate it, you must have a user on SendGrid, create an API key and change the parameter EMAIL_HOST_PASSWORD in the settings.py file with your api key. Then remove the "#" sign before each call to enviar_correo_a_administradores() function.
 
