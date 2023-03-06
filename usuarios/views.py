@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home(request):
@@ -23,6 +24,7 @@ def home(request):
             pass
     return render(request, "usuarios/index.html")
 
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -57,6 +59,7 @@ def signup(request):
     else:
         return render(request, 'usuarios/signup.html')
 
+@csrf_exempt
 def signin(request):
 
     if request.method == 'POST':
