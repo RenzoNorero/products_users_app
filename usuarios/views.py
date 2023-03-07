@@ -24,6 +24,7 @@ def home(request):
             pass
     return render(request, "usuarios/index.html")
 
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
