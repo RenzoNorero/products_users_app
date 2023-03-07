@@ -24,7 +24,6 @@ def home(request):
             pass
     return render(request, "usuarios/index.html")
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -58,7 +57,7 @@ def signup(request):
             return redirect('/signup')
     else:
         return render(request, 'usuarios/signup.html')
-
+    
 @csrf_exempt
 def signin(request):
 
@@ -72,6 +71,7 @@ def signin(request):
         if user is not None:
             login(request, user)
             fname = user.first_name
+            messages.success(request, 'Logged in successfully')
             return render(request, 'usuarios/index.html', {'fname': fname})
 
         else:
@@ -80,6 +80,7 @@ def signin(request):
 
     return render(request, "usuarios/signin.html")
 
+@csrf_exempt
 def signout(request):
     logout(request)
     messages.success(request, 'Log out successfully')
